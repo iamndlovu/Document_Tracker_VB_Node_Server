@@ -45,7 +45,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`\nServer started on port ${PORT}`));
+app.listen(PORT, async () => {
+  try {
+    const users = await User.find();
+    if (users.length === 0) {
+        const newUser = new User({
+		fullName: "System Administrator",
+		username: "admin",
+		email: "admin@example.mail",
+		password: "admin",
+		bio: "A system administrator account",
+		level: "admin",
+		picture: "/dp.jpg",
+		logs: [],
+        });
+        await newUser.save();
+    } 
+
+    console.log('Users initialized');
+
+  } catch (error) {
+    console.error('Error initializing users:', error);
+  }
+  console.log(`Server started on port: ${PORT}`);
+});
 
 app.get('/', (req, res) => {
 	res.json('Document Tracker Server babyyyy!!');
