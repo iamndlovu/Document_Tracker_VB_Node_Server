@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 const fileUpload = require('express-fileupload');
+const User = require('./models/User.model');
 require('dotenv').config();
 
 const app = express();
